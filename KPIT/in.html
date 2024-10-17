@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nearby Veterinary Hospitals</title>
+    <style>
+      /* Set map height and full width */
+      #map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+    <!-- Include the Google Maps JavaScript API -->
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDrb56iXDzL0TlMmMGOFDjIK3ot8pOCm0&loading=async&libraries=maps&v=beta" defer>
+</script>
+  </head>
+  <body>
+    <h1>Nearby Veterinary Hospitals</h1>
+    <!-- Div for the Google Map -->
+    <div id="map"></div>
+
+    <script>
+      let map, infoWindow;
+
+      function initMap() {
+        // Initialize the map
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: -34.397, lng: 150.644 }, // Default center
+          zoom: 13,
+        });
+
+        // Create an info window to display user location
+        infoWindow = new google.maps.InfoWindow();
+
+        // Try HTML5 geolocation to get user's current location
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              };
+
+              // Set map center to user's location
+              map.setCenter(pos);
+
+              // Place a marker for the user's current location
+              const marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "You are here",
+              });
+
+              // Call function to find nearby veterinary hospitals
+              findNearbyVeterinaryHospitals(pos);
+            },
+            () => {
+              handleLocationError(true, infoWindow, map.getCenter());
+            }
+          );
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      // Function to handle geolocation errors
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+      }
+
+      // Function to find nearby veterinary hospitals
+      function findNearbyVeterinaryHospitals(location) {
+        const service = new google.maps.places.PlacesService(map);
+        const request = {
+          location: location,
+          radius: 5000, // 5km radius
+          type: ["veterinary_care"], // Search for veterinary hospitals
+        };
+
+        // Use the Places API to search for nearby veterinary hospitals
+        service.nearbySearch(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (let i = 0; i < results.length; i++) {
+              const place = results[i];
+
+              // Place a marker for each veterinary hospital found
+              const marker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                title: place.name,
+              });
+
+              // Add an info window to each marker with the name and address
+              const infoWindow = new google.maps.InfoWindow();
+              marker.addListener("click", () => {
+                infoWindow.setContent(
+                  `<b>${place.name}</b><br>${place.vicinity}`
+                );
+                infoWindow.open(map, marker);
+              });
+            }
+          } else {
+            console.error("Places search failed due to: " + status);
+          }
+        });
+      }
+
+      // Load the map when the page loads
+      window.onload = initMap;
+    </script>
+  </body>
+</html>

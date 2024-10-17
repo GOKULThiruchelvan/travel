@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Travel Planner</title>
+  <style>
+    /* Updated styles for professional look */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    main {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .input-box {
+      margin-bottom: 15px;
+    }
+
+    .input-box label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #34495e;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dcdde1;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #ecf0f1;
+      color: #333;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ecf0f1;
+      border: 1px solid #dcdde1;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #34495e;
+    }
+
+    .location-info {
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #e74c3c;
+      color: white;
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 15px;
+      display: none; /* Hidden until we get the location */
+    }
+    
+    .location-prompt {
+      font-size: 16px;
+      color: #e74c3c;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Professional Travel Planner</h1>
+    <p class="location-prompt">Allow access to your location to personalize your trip plan.</p>
+    <div class="location-info" id="locationInfo">Fetching location...</div>
+    <form>
+      <div class="input-box">
+        <label for="days">
+          Number of Days:
+        </label>
+        <input name="days" placeholder="Enter number of days" id="days" type="number" min="1" required>
+      </div>
+      <button type="submit">Plan My Trip</button>
+    </form>
+    <div class="output">(Your trip plan will appear here)</div>
+  </main>
+
+  <script type="module" src="/static/main.js"></script>
+</body>
+</html>
